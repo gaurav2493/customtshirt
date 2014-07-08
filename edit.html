@@ -17,10 +17,10 @@ var tShirtInstance = new fabric.Image(imgElement, {
   opacity: 1
   
 });
-tShirtInstance.selectable=false;
+tShirtInstance.selectable=false;  //make tshirt immovable
 
 canvas.add(tShirtInstance);
-var rect = new fabric.Rect({
+var rect = new fabric.Rect({  // for testing purpose
   left: 100,
   top: 100,
   fill: 'red',
@@ -32,7 +32,7 @@ var rect = new fabric.Rect({
 canvas.add(rect);
 limitMovement();
 
-function limitMovement()
+function limitMovement()  // to make sure that objects do not go out of the T shirt
 {
 	canvas.observe("object:moving", function(e){
 
