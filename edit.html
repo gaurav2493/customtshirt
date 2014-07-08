@@ -1,0 +1,66 @@
+<html>
+<head>
+	<script src="fabric.min.js"></script>
+	<title>Editor</title></head>
+<body>
+		<canvas id='c' height=600 width=600></canvas>
+		<img src="shirtFront.png" id="tshirt-image" style="display:none">
+</body>
+
+<script>
+var canvas = new fabric.Canvas('c');
+
+var imgElement = document.getElementById('tshirt-image');
+var tShirtInstance = new fabric.Image(imgElement, {
+  left: 0,
+  top: 0,
+  opacity: 1
+  
+});
+tShirtInstance.selectable=false;
+
+canvas.add(tShirtInstance);
+var rect = new fabric.Rect({
+  left: 100,
+  top: 100,
+  fill: 'red',
+  width: 20,
+  height: 20
+});
+
+
+canvas.add(rect);
+limitMovement();
+
+function limitMovement()
+{
+	canvas.observe("object:moving", function(e){
+
+      var obj = e.target;
+        var xmin=190;
+        var ymin=148;
+        var xmax=420;
+        var ymax=560;
+
+        if(obj.top+obj.getHeight() > ymax)
+        {
+            obj.top=ymax-obj.getHeight();
+        }
+        else if(obj.top < ymin)
+        {
+            obj.top=ymin;
+        }
+        if(obj.left < xmin)
+        {
+            obj.left=xmin;
+        }
+        else if(obj.left+obj.getWidth() > xmax)
+        {
+            obj.left=xmax-obj.getWidth();
+        }
+
+});
+}
+
+</script>
+</html>
