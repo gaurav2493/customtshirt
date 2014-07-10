@@ -2,35 +2,54 @@
 <head>
 	<script src="fabric.min.js"></script>
 	<title>Editor</title></head>
+
 <body>
-		<canvas id='c' height=600 width=600></canvas>
+
+		<canvas id='c'  height="600" width="600"></canvas>
+	    
 		<img src="shirtFront.png" id="tshirt-image" style="display:none">
-    <input type="button" value="Enter Text" onclick="showTextEditor()"/>
+    <button type="button" onClick="showTextEditor()"><img src="icons/text.png"></button>
     <div id="textEditor" style="display:none">
       <input type="text" id="textEditorText"/>
-      <input type="button" value="done" onclick="putTextOnShirt()">
-    </div>
+      <button type="button" onClick="putTextOnShirt()">Put Text</button>
+    </div><br/><br/><br/>
 </body>
 
 <script>
-var canvas = new fabric.Canvas('c');
+<!--Global Variables-->
 
+var canvas = new fabric.Canvas('c');
+var xmin=190;// varibales to set the editable portion of t-shirt
+var ymin=148;
+var xmax=420;
+var ymax=560;
 var imgElement = document.getElementById('tshirt-image');
-var tShirtInstance = new fabric.Image(imgElement, {
+var tShirtInstance;
+
+<!--end of global variables-->
+
+<!--Canvas and objects properties-->
+
+tShirtInstance = new fabric.Image(imgElement, {
   left: 0,
   top: 0,
   opacity: 1
   
 });
 tShirtInstance.selectable=false;  //make tshirt immovable
+canvas.add(tShirtInstance); //add tshirt image to canvas
+limitMovement();  // make elements stay within the tshirt
 
-canvas.add(tShirtInstance);
+<!--End of Canvas and objects properties-->
 
-limitMovement();
-
+function changeShirt(url)
+{
+  document.getElementById("tshirt-image").src=url;
+}
 function showTextEditor()
 {
   document.getElementById("textEditor").style.display="block";
+  document.getElementById("textEditorText").focus();
 }
 function putTextOnShirt()
 {
@@ -43,10 +62,6 @@ function limitMovement()  // to make sure that objects do not go out of the T sh
 	canvas.observe("object:moving", function(e){
 
       var obj = e.target;
-        var xmin=190;
-        var ymin=148;
-        var xmax=420;
-        var ymax=560;
 
         if(obj.top+obj.getHeight() > ymax)
         {
@@ -65,7 +80,7 @@ function limitMovement()  // to make sure that objects do not go out of the T sh
             obj.left=xmax-obj.getWidth();
         }
 
-});
+  });
 }
 
 </script>
